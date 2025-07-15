@@ -1,0 +1,5 @@
+datasets/
+**/*.json
+**/*cache*
+**/*pickle
+**/*DS_Store
