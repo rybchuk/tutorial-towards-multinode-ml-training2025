@@ -90,12 +90,14 @@ def main():
             # Push data to device
             model_input, target = model_input.float().to(device), target.float().to(device)
 
+            # Reset gradients
+            optimizer.zero_grad()
+
             # Forward
             model_output = model(model_input)
             loss = loss_fcn(model_output, target)
             
             # Backward
-            optimizer.zero_grad()
             loss.backward()
             optimizer.step()
 

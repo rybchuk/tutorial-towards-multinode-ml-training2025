@@ -161,6 +161,9 @@ def main():
                 # Push data to device
                 model_input, target = model_input.float().to(rank), target.float().to(rank)
 
+                # Reset gradients
+                optimizer.zero_grad()
+
                 # Forward
                 with record_function("## forward ##"):
                     model_output = model(model_input) 
@@ -171,7 +174,6 @@ def main():
                     loss.backward()
                 
                 with record_function("## optimizer ##"):
-                    optimizer.zero_grad()
                     optimizer.step()
 
                 epoch_train_loss += loss.item() / len(dl_train)

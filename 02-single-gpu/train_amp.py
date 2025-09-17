@@ -114,6 +114,9 @@ def main():
                 # Push data to device
                 model_input, target = model_input.float().to(device), target.float().to(device)
 
+                # Reset gradients
+                optimizer.zero_grad()
+
                 # Forward
                 with record_function("## forward ##"):
                     with autocast('cuda'):
@@ -122,7 +125,6 @@ def main():
                 
                 # Backward
                 with record_function("## backward ##"):
-                    optimizer.zero_grad()
                     scaler.scale(loss).backward()
                 
                 with record_function("## optimizer ##"):
