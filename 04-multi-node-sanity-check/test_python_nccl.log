@@ -1,0 +1,429 @@
+
+Currently Loaded Modules:
+  1) gcc-native/12.1   2) libfabric/1.15.2.0   3) craype-network-ofi   4) cray-python/3.11.5   5) curl/8.6.0   6) gmake/4.4.1   7) cmake/3.29.6   8) binutils/2.41   9) gcc-stdalone/13.1.0  10) cuda/12.9  11) cudnn/9.2.0.82-12  12) conda/2022.05
+
+ 
+
+
+Currently Loaded Modules:
+  1) gcc-native/12.1   2) libfabric/1.15.2.0   3) craype-network-ofi   4) cray-python/3.11.5   5) curl/8.6.0   6) gmake/4.4.1   7) cmake/3.29.6   8) binutils/2.41   9) gcc-stdalone/13.1.0  10) cuda/12.9  11) cudnn/9.2.0.82-12  12) conda/2022.05
+
+ 
+
+Configuring on x3115c0s29b0n0 as orybchuk
+  Build directory /scratch/orybchuk/pytorch-build/pytorch/2.8.0
+  Install directory /scratch/orybchuk/conda/pytorch/2.8.0
+
+Currently Loaded Modules:
+  1) gcc-native/12.1   2) libfabric/1.15.2.0   3) craype-network-ofi   4) cray-python/3.11.5   5) curl/8.6.0   6) gmake/4.4.1   7) cmake/3.29.6   8) binutils/2.41   9) gcc-stdalone/13.1.0  10) cuda/12.9  11) cudnn/9.2.0.82-12  12) conda/2022.05
+
+ 
+
+
+Currently Loaded Modules:
+  1) gcc-native/12.1   2) libfabric/1.15.2.0   3) craype-network-ofi   4) cray-python/3.11.5   5) curl/8.6.0   6) gmake/4.4.1   7) cmake/3.29.6   8) binutils/2.41   9) gcc-stdalone/13.1.0  10) cuda/12.9  11) cudnn/9.2.0.82-12  12) conda/2022.05
+
+ 
+
+NCCL_HOME is set to /projects/hpcapps/orybchuk/superbench/compile_on_kestrel/nccl
+x3115c0s29b0n0:565272:565272 [0] NCCL INFO NCCL_SOCKET_IFNAME set by environment to hsn
+x3115c0s29b0n0:565272:565272 [0] NCCL INFO Bootstrap : Using hsn0:10.150.17.117<0>
+x3115c0s29b0n0:565272:565272 [0] NCCL INFO NET/Plugin: Failed to find ncclNetPlugin_v8 symbol.
+x3115c0s29b0n0:565272:565272 [0] NCCL INFO NET/Plugin: Loaded net plugin AWS Libfabric (v6)
+x3115c0s29b0n0:565272:565272 [0] NCCL INFO NET/Plugin: Failed to find ncclCollNetPlugin_v8 symbol.
+x3115c0s29b0n0:565272:565272 [0] NCCL INFO NET/Plugin: Failed to find ncclCollNetPlugin symbol (>= v5). ncclCollNetPlugin symbols v4 and lower are not supported.
+x3115c0s29b0n0:565272:565272 [0] NCCL INFO cudaDriverVersion 12040
+NCCL version 2.21.5+cuda12.3
+Initialized distributed training:
+  World size: 8
+  Backend: nccl
+  CUDA devices: 4
+  Current device: cuda:0
+  SLURM Job ID: 10398934
+  SLURM Nodes: x3115c0s29b0n0,x3115c0s33b0n0
+  Master Address: 10.150.17.117
+
+Running comprehensive NCCL AllReduce tests...
+Test configurations:
+  Sizes: 10 different sizes
+  Data types: ['float32', 'float16']
+  Reduction ops: ['sum']
+  World size: 8
+
+Size (elements) Data Type  Op       Time (ms)    Alg BW (GB/s)   Bus BW (GB/s)   Correct 
+------------------------------------------------------------------------------------------
+1024            float32    sum      0.038        0.11            0.19            ✓       
+1024            float16    sum      0.029        0.07            0.12            ✓       
+4096            float32    sum      0.038        0.43            0.75            ✓       
+4096            float16    sum      0.033        0.25            0.43            ✓       
+16384           float32    sum      0.061        1.07            1.87            ✓       
+16384           float16    sum      0.039        0.83            1.46            ✓       
+65536           float32    sum      0.096        2.74            4.80            ✓       
+65536           float16    sum      0.090        1.46            2.56            ✓       
+262144          float32    sum      0.194        5.41            9.47            ✓       
+262144          float16    sum      0.118        4.45            7.78            ✓       
+1048576         float32    sum      0.268        15.63           27.35           ✓       
+1048576         float16    sum      0.387        5.42            9.49            ✓       
+4194304         float32    sum      0.841        19.96           34.93           ✓       
+4194304         float16    sum      0.495        16.95           29.67           ✓       
+16777216        float32    sum      2.354        28.51           49.89           ✓       
+16777216        float16    sum      1.298        25.85           45.25           ✓       
+67108864        float32    sum      8.693        30.88           54.04           ✓       
+67108864        float16    sum      4.489        29.90           52.33           ✓       
+134217728       float32    sum      17.143       31.32           54.81           ✓       
+134217728       float16    sum      8.763        30.63           53.61           ✓       
+
+============================================================
+TEST SUMMARY
+============================================================
+Total tests: 20
+Passed: 20
+Failed: 0
+Success rate: 100.0%
+
+Bandwidth Statistics (GB/s):
+  Maximum: 54.81
+  Minimum: 0.12
+  Average: 22.04
+  Median: 9.48
+
+Best bandwidth by data type:
+  torch.float32: 54.81 GB/s (size: 134217728 elements)
+  torch.float16: 53.61 GB/s (size: 134217728 elements)
+
+# Out of bounds values : 0 OK
+# Avg bus bandwidth    : 22.04
+
+Test completed successfully!
+x3115c0s29b0n0:565275:565275 [3] NCCL INFO cudaDriverVersion 12040
+x3115c0s29b0n0:565275:565275 [3] NCCL INFO NCCL_SOCKET_IFNAME set by environment to hsn
+x3115c0s29b0n0:565275:565275 [3] NCCL INFO Bootstrap : Using hsn0:10.150.17.117<0>
+x3115c0s29b0n0:565275:565275 [3] NCCL INFO NET/Plugin: Failed to find ncclNetPlugin_v8 symbol.
+x3115c0s29b0n0:565275:565275 [3] NCCL INFO NET/Plugin: Loaded net plugin AWS Libfabric (v6)
+x3115c0s29b0n0:565275:565275 [3] NCCL INFO NET/Plugin: Failed to find ncclCollNetPlugin_v8 symbol.
+x3115c0s29b0n0:565275:565275 [3] NCCL INFO NET/Plugin: Failed to find ncclCollNetPlugin symbol (>= v5). ncclCollNetPlugin symbols v4 and lower are not supported.
+x3115c0s29b0n0:565275:565275 [3] NCCL INFO Comm config Blocking set to 1
+x3115c0s29b0n0:565275:565458 [3] NCCL INFO NET/OFI Using aws-ofi-nccl 1.6.0
+x3115c0s29b0n0:565275:565458 [3] NCCL INFO NET/OFI Selected Provider is cxi (found 4 nics)
+x3115c0s29b0n0:565275:565458 [3] NCCL INFO Using non-device net plugin version 0
+x3115c0s29b0n0:565275:565458 [3] NCCL INFO Using network AWS Libfabric
+x3115c0s29b0n0:565275:565458 [3] NCCL INFO ncclCommInitRank comm 0xa62f430 rank 3 nranks 8 cudaDev 3 nvmlDev 3 busId e4000 commId 0x8656f30c4b9c306d - Init START
+x3115c0s29b0n0:565275:565458 [3] NCCL INFO NCCL_NET_GDR_LEVEL set by environment to LOC
+x3115c0s29b0n0:565275:565458 [3] NCCL INFO NVLS multicast support is not available on dev 3
+x3115c0s29b0n0:565275:565458 [3] NCCL INFO NCCL_CROSS_NIC set by environment to 1.
+x3115c0s29b0n0:565275:565458 [3] NCCL INFO comm 0xa62f430 rank 3 nRanks 8 nNodes 2 localRanks 4 localRank 3 MNNVL 0
+x3115c0s29b0n0:565275:565458 [3] NCCL INFO Trees [0] -1/-1/-1->3->2 [1] 0/-1/-1->3->2 [2] -1/-1/-1->3->2 [3] 0/-1/-1->3->2
+x3115c0s29b0n0:565275:565458 [3] NCCL INFO P2P Chunksize set to 131072
+x3115c0s29b0n0:565275:565458 [3] NCCL INFO Channel 01/0 : 3[3] -> 0[0] via P2P/CUMEM
+x3115c0s29b0n0:565275:565458 [3] NCCL INFO Channel 03/0 : 3[3] -> 0[0] via P2P/CUMEM
+x3115c0s29b0n0:565275:565458 [3] NCCL INFO Channel 00/0 : 3[3] -> 1[1] via P2P/CUMEM
+x3115c0s29b0n0:565275:565458 [3] NCCL INFO Channel 02/0 : 3[3] -> 1[1] via P2P/CUMEM
+x3115c0s29b0n0:565275:565458 [3] NCCL INFO Connected all rings
+x3115c0s29b0n0:565275:565458 [3] NCCL INFO Channel 00/0 : 3[3] -> 2[2] via P2P/CUMEM
+x3115c0s29b0n0:565275:565458 [3] NCCL INFO Channel 01/0 : 3[3] -> 2[2] via P2P/CUMEM
+x3115c0s29b0n0:565275:565458 [3] NCCL INFO Channel 02/0 : 3[3] -> 2[2] via P2P/CUMEM
+x3115c0s29b0n0:565275:565458 [3] NCCL INFO Channel 03/0 : 3[3] -> 2[2] via P2P/CUMEM
+x3115c0s29b0n0:565275:565458 [3] NCCL INFO Connected all trees
+x3115c0s29b0n0:565275:565458 [3] NCCL INFO threadThresholds 8/8/64 | 64/8/64 | 512 | 512
+x3115c0s29b0n0:565275:565458 [3] NCCL INFO 4 coll channels, 4 collnet channels, 0 nvls channels, 4 p2p channels, 2 p2p channels per peer
+x3115c0s29b0n0:565275:565458 [3] NCCL INFO TUNER/Plugin: Failed to find ncclTunerPlugin_v2, using internal tuner instead.
+x3115c0s29b0n0:565275:565458 [3] NCCL INFO ncclCommInitRank comm 0xa62f430 rank 3 nranks 8 cudaDev 3 nvmlDev 3 busId e4000 commId 0x8656f30c4b9c306d - Init COMPLETE
+[rank3]:[W819 19:26:57.157255417 TCPStore.cpp:125] [c10d] recvValue failed on SocketImpl(fd=4, addr=[x3115c0s29b0n0.hsn.cm.kestrel.hpc.nrel.gov]:35308, remote=[x3115c0s29b0n0.hsn.cm.kestrel.hpc.nrel.gov]:12355): Failed to recv, got 0 bytes. Connection was likely closed. Did the remote server shutdown or crash?
+Exception raised from recvBytes at /kfs3/scratch/orybchuk/pytorch-build/pytorch/2.8.0/pytorch/torch/csrc/distributed/c10d/Utils.hpp:682 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x80 (0x7f11844c3db0 in /scratch/orybchuk/conda/pytorch/2.8.0/lib/python3.12/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x5b36b81 (0x7f1197d37b81 in /scratch/orybchuk/conda/pytorch/2.8.0/lib/python3.12/site-packages/torch/lib/libtorch_cpu.so)
+frame #2: <unknown function> + 0x5b37f7d (0x7f1197d38f7d in /scratch/orybchuk/conda/pytorch/2.8.0/lib/python3.12/site-packages/torch/lib/libtorch_cpu.so)
+frame #3: <unknown function> + 0x5b38b2a (0x7f1197d39b2a in /scratch/orybchuk/conda/pytorch/2.8.0/lib/python3.12/site-packages/torch/lib/libtorch_cpu.so)
+frame #4: c10d::TCPStore::check(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) + 0x31e (0x7f1197d3486e in /scratch/orybchuk/conda/pytorch/2.8.0/lib/python3.12/site-packages/torch/lib/libtorch_cpu.so)
+frame #5: c10d::ProcessGroupNCCL::HeartbeatMonitor::runLoop() + 0x398 (0x7f11854dda68 in /scratch/orybchuk/conda/pytorch/2.8.0/lib/python3.12/site-packages/torch/lib/libtorch_cuda.so)
+frame #6: <unknown function> + 0xfe003 (0x7f11a8be0003 in /nopt/nrel/apps/gpu_stack/compilers/06-24/linux-rhel8-zen4/gcc-12.3.0/gcc-13.1.0-2gnfzy5425yehx7zzh237h5jouktucg4/lib64/libstdc++.so.6)
+frame #7: <unknown function> + 0x81ca (0x7f11a88ca1ca in /lib64/libpthread.so.0)
+frame #8: clone + 0x43 (0x7f11a7dace73 in /lib64/libc.so.6)
+
+[rank3]:[W819 19:26:57.159800401 ProcessGroupNCCL.cpp:1783] [PG ID 0 PG GUID 0(default_pg) Rank 3] Failed to check the "should dump" flag on TCPStore, (maybe TCPStore server has shut down too early), with error: Failed to recv, got 0 bytes. Connection was likely closed. Did the remote server shutdown or crash?
+x3115c0s29b0n0:565273:565273 [1] NCCL INFO cudaDriverVersion 12040
+x3115c0s29b0n0:565273:565273 [1] NCCL INFO NCCL_SOCKET_IFNAME set by environment to hsn
+x3115c0s29b0n0:565273:565273 [1] NCCL INFO Bootstrap : Using hsn0:10.150.17.117<0>
+x3115c0s29b0n0:565273:565273 [1] NCCL INFO NET/Plugin: Failed to find ncclNetPlugin_v8 symbol.
+x3115c0s29b0n0:565273:565273 [1] NCCL INFO NET/Plugin: Loaded net plugin AWS Libfabric (v6)
+x3115c0s29b0n0:565273:565273 [1] NCCL INFO NET/Plugin: Failed to find ncclCollNetPlugin_v8 symbol.
+x3115c0s29b0n0:565273:565273 [1] NCCL INFO NET/Plugin: Failed to find ncclCollNetPlugin symbol (>= v5). ncclCollNetPlugin symbols v4 and lower are not supported.
+x3115c0s29b0n0:565273:565273 [1] NCCL INFO Comm config Blocking set to 1
+x3115c0s29b0n0:565273:565459 [1] NCCL INFO NET/OFI Using aws-ofi-nccl 1.6.0
+x3115c0s29b0n0:565273:565459 [1] NCCL INFO NET/OFI Selected Provider is cxi (found 4 nics)
+x3115c0s29b0n0:565273:565459 [1] NCCL INFO Using non-device net plugin version 0
+x3115c0s29b0n0:565273:565459 [1] NCCL INFO Using network AWS Libfabric
+x3115c0s29b0n0:565273:565459 [1] NCCL INFO ncclCommInitRank comm 0xaaf7340 rank 1 nranks 8 cudaDev 1 nvmlDev 1 busId 64000 commId 0x8656f30c4b9c306d - Init START
+x3115c0s29b0n0:565273:565459 [1] NCCL INFO NCCL_NET_GDR_LEVEL set by environment to LOC
+x3115c0s29b0n0:565273:565459 [1] NCCL INFO NVLS multicast support is not available on dev 1
+x3115c0s29b0n0:565273:565459 [1] NCCL INFO NCCL_CROSS_NIC set by environment to 1.
+x3115c0s29b0n0:565273:565459 [1] NCCL INFO comm 0xaaf7340 rank 1 nRanks 8 nNodes 2 localRanks 4 localRank 1 MNNVL 0
+x3115c0s29b0n0:565273:565459 [1] NCCL INFO Trees [0] 2/-1/-1->1->0 [1] -1/-1/-1->1->0 [2] 2/-1/-1->1->0 [3] -1/-1/-1->1->0
+x3115c0s29b0n0:565273:565459 [1] NCCL INFO P2P Chunksize set to 131072
+x3115c0s29b0n0:565273:565459 [1] NCCL INFO Channel 00/0 : 1[1] -> 2[2] via P2P/CUMEM
+x3115c0s29b0n0:565273:565459 [1] NCCL INFO Channel 02/0 : 1[1] -> 2[2] via P2P/CUMEM
+x3115c0s29b0n0:565273:565459 [1] NCCL INFO Channel 01/0 : 1[1] -> 3[3] via P2P/CUMEM
+x3115c0s29b0n0:565273:565459 [1] NCCL INFO Channel 03/0 : 1[1] -> 3[3] via P2P/CUMEM
+x3115c0s29b0n0:565273:565459 [1] NCCL INFO Connected all rings
+x3115c0s29b0n0:565273:565459 [1] NCCL INFO Channel 00/0 : 1[1] -> 0[0] via P2P/CUMEM
+x3115c0s29b0n0:565273:565459 [1] NCCL INFO Channel 01/0 : 1[1] -> 0[0] via P2P/CUMEM
+x3115c0s29b0n0:565273:565459 [1] NCCL INFO Channel 02/0 : 1[1] -> 0[0] via P2P/CUMEM
+x3115c0s29b0n0:565273:565459 [1] NCCL INFO Channel 03/0 : 1[1] -> 0[0] via P2P/CUMEM
+x3115c0s29b0n0:565273:565459 [1] NCCL INFO Connected all trees
+x3115c0s29b0n0:565273:565459 [1] NCCL INFO threadThresholds 8/8/64 | 64/8/64 | 512 | 512
+x3115c0s29b0n0:565273:565459 [1] NCCL INFO 4 coll channels, 4 collnet channels, 0 nvls channels, 4 p2p channels, 2 p2p channels per peer
+x3115c0s29b0n0:565273:565459 [1] NCCL INFO TUNER/Plugin: Failed to find ncclTunerPlugin_v2, using internal tuner instead.
+x3115c0s29b0n0:565273:565459 [1] NCCL INFO ncclCommInitRank comm 0xaaf7340 rank 1 nranks 8 cudaDev 1 nvmlDev 1 busId 64000 commId 0x8656f30c4b9c306d - Init COMPLETE
+[rank1]:[W819 19:26:57.168705806 TCPStore.cpp:125] [c10d] recvValue failed on SocketImpl(fd=3, addr=[x3115c0s29b0n0.hsn.cm.kestrel.hpc.nrel.gov]:35296, remote=[x3115c0s29b0n0.hsn.cm.kestrel.hpc.nrel.gov]:12355): Failed to recv, got 0 bytes. Connection was likely closed. Did the remote server shutdown or crash?
+Exception raised from recvBytes at /kfs3/scratch/orybchuk/pytorch-build/pytorch/2.8.0/pytorch/torch/csrc/distributed/c10d/Utils.hpp:682 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x80 (0x7fb74e381db0 in /scratch/orybchuk/conda/pytorch/2.8.0/lib/python3.12/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x5b36b81 (0x7fb761bf5b81 in /scratch/orybchuk/conda/pytorch/2.8.0/lib/python3.12/site-packages/torch/lib/libtorch_cpu.so)
+frame #2: <unknown function> + 0x5b37f7d (0x7fb761bf6f7d in /scratch/orybchuk/conda/pytorch/2.8.0/lib/python3.12/site-packages/torch/lib/libtorch_cpu.so)
+frame #3: <unknown function> + 0x5b38b2a (0x7fb761bf7b2a in /scratch/orybchuk/conda/pytorch/2.8.0/lib/python3.12/site-packages/torch/lib/libtorch_cpu.so)
+frame #4: c10d::TCPStore::check(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) + 0x31e (0x7fb761bf286e in /scratch/orybchuk/conda/pytorch/2.8.0/lib/python3.12/site-packages/torch/lib/libtorch_cpu.so)
+frame #5: c10d::ProcessGroupNCCL::HeartbeatMonitor::runLoop() + 0x398 (0x7fb74f39ba68 in /scratch/orybchuk/conda/pytorch/2.8.0/lib/python3.12/site-packages/torch/lib/libtorch_cuda.so)
+frame #6: <unknown function> + 0xfe003 (0x7fb772a9e003 in /nopt/nrel/apps/gpu_stack/compilers/06-24/linux-rhel8-zen4/gcc-12.3.0/gcc-13.1.0-2gnfzy5425yehx7zzh237h5jouktucg4/lib64/libstdc++.so.6)
+frame #7: <unknown function> + 0x81ca (0x7fb7727881ca in /lib64/libpthread.so.0)
+frame #8: clone + 0x43 (0x7fb771c6ae73 in /lib64/libc.so.6)
+
+[rank1]:[W819 19:26:57.171184149 ProcessGroupNCCL.cpp:1783] [PG ID 0 PG GUID 0(default_pg) Rank 1] Failed to check the "should dump" flag on TCPStore, (maybe TCPStore server has shut down too early), with error: Failed to recv, got 0 bytes. Connection was likely closed. Did the remote server shutdown or crash?
+x3115c0s33b0n0:2367131:2367131 [3] NCCL INFO cudaDriverVersion 12040
+x3115c0s33b0n0:2367131:2367131 [3] NCCL INFO NCCL_SOCKET_IFNAME set by environment to hsn
+x3115c0s33b0n0:2367131:2367131 [3] NCCL INFO Bootstrap : Using hsn0:10.150.17.118<0>
+x3115c0s33b0n0:2367131:2367131 [3] NCCL INFO NET/Plugin: Failed to find ncclNetPlugin_v8 symbol.
+x3115c0s33b0n0:2367131:2367131 [3] NCCL INFO NET/Plugin: Loaded net plugin AWS Libfabric (v6)
+x3115c0s33b0n0:2367131:2367131 [3] NCCL INFO NET/Plugin: Failed to find ncclCollNetPlugin_v8 symbol.
+x3115c0s33b0n0:2367131:2367131 [3] NCCL INFO NET/Plugin: Failed to find ncclCollNetPlugin symbol (>= v5). ncclCollNetPlugin symbols v4 and lower are not supported.
+x3115c0s33b0n0:2367131:2367131 [3] NCCL INFO Comm config Blocking set to 1
+x3115c0s33b0n0:2367131:2368306 [3] NCCL INFO NET/OFI Using aws-ofi-nccl 1.6.0
+x3115c0s33b0n0:2367131:2368306 [3] NCCL INFO NET/OFI Selected Provider is cxi (found 4 nics)
+x3115c0s33b0n0:2367131:2368306 [3] NCCL INFO Using non-device net plugin version 0
+x3115c0s33b0n0:2367131:2368306 [3] NCCL INFO Using network AWS Libfabric
+x3115c0s33b0n0:2367131:2368306 [3] NCCL INFO ncclCommInitRank comm 0xaac1330 rank 7 nranks 8 cudaDev 3 nvmlDev 3 busId e4000 commId 0x8656f30c4b9c306d - Init START
+x3115c0s33b0n0:2367131:2368306 [3] NCCL INFO NCCL_NET_GDR_LEVEL set by environment to LOC
+x3115c0s33b0n0:2367131:2368306 [3] NCCL INFO NVLS multicast support is not available on dev 3
+x3115c0s33b0n0:2367131:2368306 [3] NCCL INFO NCCL_CROSS_NIC set by environment to 1.
+x3115c0s33b0n0:2367131:2368306 [3] NCCL INFO comm 0xaac1330 rank 7 nRanks 8 nNodes 2 localRanks 4 localRank 3 MNNVL 0
+x3115c0s33b0n0:2367131:2368306 [3] NCCL INFO Trees [0] -1/-1/-1->7->6 [1] 4/-1/-1->7->6 [2] -1/-1/-1->7->6 [3] 4/-1/-1->7->6
+x3115c0s33b0n0:2367131:2368306 [3] NCCL INFO P2P Chunksize set to 131072
+x3115c0s33b0n0:2367131:2368306 [3] NCCL INFO Channel 00/0 : 7[3] -> 4[0] via P2P/CUMEM
+x3115c0s33b0n0:2367131:2368306 [3] NCCL INFO Channel 02/0 : 7[3] -> 4[0] via P2P/CUMEM
+x3115c0s33b0n0:2367131:2368306 [3] NCCL INFO Channel 01/0 : 7[3] -> 5[1] via P2P/CUMEM
+x3115c0s33b0n0:2367131:2368306 [3] NCCL INFO Channel 03/0 : 7[3] -> 5[1] via P2P/CUMEM
+x3115c0s33b0n0:2367131:2368306 [3] NCCL INFO Connected all rings
+x3115c0s33b0n0:2367131:2368306 [3] NCCL INFO Channel 01/0 : 7[3] -> 4[0] via P2P/CUMEM
+x3115c0s33b0n0:2367131:2368306 [3] NCCL INFO Channel 03/0 : 7[3] -> 4[0] via P2P/CUMEM
+x3115c0s33b0n0:2367131:2368306 [3] NCCL INFO Channel 00/0 : 7[3] -> 6[2] via P2P/CUMEM
+x3115c0s33b0n0:2367131:2368306 [3] NCCL INFO Channel 01/0 : 7[3] -> 6[2] via P2P/CUMEM
+x3115c0s33b0n0:2367131:2368306 [3] NCCL INFO Channel 02/0 : 7[3] -> 6[2] via P2P/CUMEM
+x3115c0s33b0n0:2367131:2368306 [3] NCCL INFO Channel 03/0 : 7[3] -> 6[2] via P2P/CUMEM
+x3115c0s33b0n0:2367131:2368306 [3] NCCL INFO Connected all trees
+x3115c0s33b0n0:2367131:2368306 [3] NCCL INFO threadThresholds 8/8/64 | 64/8/64 | 512 | 512
+x3115c0s33b0n0:2367131:2368306 [3] NCCL INFO 4 coll channels, 4 collnet channels, 0 nvls channels, 4 p2p channels, 2 p2p channels per peer
+x3115c0s33b0n0:2367131:2368306 [3] NCCL INFO TUNER/Plugin: Failed to find ncclTunerPlugin_v2, using internal tuner instead.
+x3115c0s33b0n0:2367131:2368306 [3] NCCL INFO ncclCommInitRank comm 0xaac1330 rank 7 nranks 8 cudaDev 3 nvmlDev 3 busId e4000 commId 0x8656f30c4b9c306d - Init COMPLETE
+[rank7]:[W819 19:26:57.516899468 TCPStore.cpp:125] [c10d] recvValue failed on SocketImpl(fd=3, addr=[x3115c0s33b0n0.hsn.cm.kestrel.hpc.nrel.gov]:44002, remote=[x3115c0s29b0n0.hsn.cm.kestrel.hpc.nrel.gov]:12355): Failed to recv, got 0 bytes. Connection was likely closed. Did the remote server shutdown or crash?
+Exception raised from recvBytes at /kfs3/scratch/orybchuk/pytorch-build/pytorch/2.8.0/pytorch/torch/csrc/distributed/c10d/Utils.hpp:682 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x80 (0x7f6ca2612db0 in /scratch/orybchuk/conda/pytorch/2.8.0/lib/python3.12/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x5b36b81 (0x7f6cb5e86b81 in /scratch/orybchuk/conda/pytorch/2.8.0/lib/python3.12/site-packages/torch/lib/libtorch_cpu.so)
+frame #2: <unknown function> + 0x5b37f7d (0x7f6cb5e87f7d in /scratch/orybchuk/conda/pytorch/2.8.0/lib/python3.12/site-packages/torch/lib/libtorch_cpu.so)
+frame #3: <unknown function> + 0x5b38b2a (0x7f6cb5e88b2a in /scratch/orybchuk/conda/pytorch/2.8.0/lib/python3.12/site-packages/torch/lib/libtorch_cpu.so)
+frame #4: c10d::TCPStore::check(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) + 0x31e (0x7f6cb5e8386e in /scratch/orybchuk/conda/pytorch/2.8.0/lib/python3.12/site-packages/torch/lib/libtorch_cpu.so)
+frame #5: c10d::ProcessGroupNCCL::HeartbeatMonitor::runLoop() + 0x398 (0x7f6ca362ca68 in /scratch/orybchuk/conda/pytorch/2.8.0/lib/python3.12/site-packages/torch/lib/libtorch_cuda.so)
+frame #6: <unknown function> + 0xfe003 (0x7f6cc6d2f003 in /nopt/nrel/apps/gpu_stack/compilers/06-24/linux-rhel8-zen4/gcc-12.3.0/gcc-13.1.0-2gnfzy5425yehx7zzh237h5jouktucg4/lib64/libstdc++.so.6)
+frame #7: <unknown function> + 0x81ca (0x7f6cc6a191ca in /lib64/libpthread.so.0)
+frame #8: clone + 0x43 (0x7f6cc5efbe73 in /lib64/libc.so.6)
+
+[rank7]:[W819 19:26:57.519507789 ProcessGroupNCCL.cpp:1783] [PG ID 0 PG GUID 0(default_pg) Rank 7] Failed to check the "should dump" flag on TCPStore, (maybe TCPStore server has shut down too early), with error: Failed to recv, got 0 bytes. Connection was likely closed. Did the remote server shutdown or crash?
+x3115c0s29b0n0:565272:565272 [0] NCCL INFO Comm config Blocking set to 1
+x3115c0s29b0n0:565272:565456 [0] NCCL INFO NET/OFI Using aws-ofi-nccl 1.6.0
+x3115c0s29b0n0:565272:565456 [0] NCCL INFO NET/OFI Selected Provider is cxi (found 4 nics)
+x3115c0s29b0n0:565272:565456 [0] NCCL INFO Using non-device net plugin version 0
+x3115c0s29b0n0:565272:565456 [0] NCCL INFO Using network AWS Libfabric
+x3115c0s29b0n0:565272:565456 [0] NCCL INFO ncclCommInitRank comm 0xa2e77c0 rank 0 nranks 8 cudaDev 0 nvmlDev 0 busId 4000 commId 0x8656f30c4b9c306d - Init START
+x3115c0s29b0n0:565272:565456 [0] NCCL INFO NCCL_NET_GDR_LEVEL set by environment to LOC
+x3115c0s29b0n0:565272:565456 [0] NCCL INFO NVLS multicast support is not available on dev 0
+x3115c0s29b0n0:565272:565456 [0] NCCL INFO NCCL_CROSS_NIC set by environment to 1.
+x3115c0s29b0n0:565272:565456 [0] NCCL INFO comm 0xa2e77c0 rank 0 nRanks 8 nNodes 2 localRanks 4 localRank 0 MNNVL 0
+x3115c0s29b0n0:565272:565456 [0] NCCL INFO Channel 00/04 :    0   3   1   2   6   5   7   4
+x3115c0s29b0n0:565272:565456 [0] NCCL INFO Channel 01/04 :    0   4   7   5   6   2   1   3
+x3115c0s29b0n0:565272:565456 [0] NCCL INFO Channel 02/04 :    0   3   1   2   6   5   7   4
+x3115c0s29b0n0:565272:565456 [0] NCCL INFO Channel 03/04 :    0   4   7   5   6   2   1   3
+x3115c0s29b0n0:565272:565456 [0] NCCL INFO Trees [0] 1/4/-1->0->-1 [1] 1/-1/-1->0->3 [2] 1/-1/-1->0->4 [3] 1/-1/-1->0->3
+x3115c0s29b0n0:565272:565456 [0] NCCL INFO P2P Chunksize set to 131072
+x3115c0s29b0n0:565272:565456 [0] NCCL INFO Channel 00/0 : 0[0] -> 3[3] via P2P/CUMEM
+x3115c0s29b0n0:565272:565456 [0] NCCL INFO Channel 02/0 : 0[0] -> 3[3] via P2P/CUMEM
+x3115c0s29b0n0:565272:565456 [0] NCCL INFO Channel 00/0 : 4[0] -> 0[0] [receive] via NET/AWS Libfabric/1
+x3115c0s29b0n0:565272:565456 [0] NCCL INFO Channel 02/0 : 4[0] -> 0[0] [receive] via NET/AWS Libfabric/1
+x3115c0s29b0n0:565272:565456 [0] NCCL INFO Channel 01/0 : 0[0] -> 4[0] [send] via NET/AWS Libfabric/1
+x3115c0s29b0n0:565272:565456 [0] NCCL INFO Channel 03/0 : 0[0] -> 4[0] [send] via NET/AWS Libfabric/1
+x3115c0s29b0n0:565272:565456 [0] NCCL INFO Connected all rings
+x3115c0s29b0n0:565272:565456 [0] NCCL INFO Channel 00/0 : 0[0] -> 1[1] via P2P/CUMEM
+x3115c0s29b0n0:565272:565456 [0] NCCL INFO Channel 01/0 : 0[0] -> 1[1] via P2P/CUMEM
+x3115c0s29b0n0:565272:565456 [0] NCCL INFO Channel 02/0 : 0[0] -> 1[1] via P2P/CUMEM
+x3115c0s29b0n0:565272:565456 [0] NCCL INFO Channel 03/0 : 0[0] -> 1[1] via P2P/CUMEM
+x3115c0s29b0n0:565272:565456 [0] NCCL INFO Channel 01/0 : 0[0] -> 3[3] via P2P/CUMEM
+x3115c0s29b0n0:565272:565456 [0] NCCL INFO Channel 03/0 : 0[0] -> 3[3] via P2P/CUMEM
+x3115c0s29b0n0:565272:565456 [0] NCCL INFO Channel 00/0 : 0[0] -> 4[0] [send] via NET/AWS Libfabric/1
+x3115c0s29b0n0:565272:565456 [0] NCCL INFO Channel 02/0 : 0[0] -> 4[0] [send] via NET/AWS Libfabric/1
+x3115c0s29b0n0:565272:565456 [0] NCCL INFO Connected all trees
+x3115c0s29b0n0:565272:565456 [0] NCCL INFO threadThresholds 8/8/64 | 64/8/64 | 512 | 512
+x3115c0s29b0n0:565272:565456 [0] NCCL INFO 4 coll channels, 4 collnet channels, 0 nvls channels, 4 p2p channels, 2 p2p channels per peer
+x3115c0s29b0n0:565272:565456 [0] NCCL INFO TUNER/Plugin: Failed to find ncclTunerPlugin_v2, using internal tuner instead.
+x3115c0s29b0n0:565272:565456 [0] NCCL INFO ncclCommInitRank comm 0xa2e77c0 rank 0 nranks 8 cudaDev 0 nvmlDev 0 busId 4000 commId 0x8656f30c4b9c306d - Init COMPLETE
+x3115c0s29b0n0:565272:565272 [0] NCCL INFO comm 0xa2e77c0 rank 0 nranks 8 cudaDev 0 busId 4000 - Destroy COMPLETE
+x3115c0s33b0n0:2367128:2367128 [0] NCCL INFO cudaDriverVersion 12040
+x3115c0s33b0n0:2367128:2367128 [0] NCCL INFO NCCL_SOCKET_IFNAME set by environment to hsn
+x3115c0s33b0n0:2367128:2367128 [0] NCCL INFO Bootstrap : Using hsn0:10.150.17.118<0>
+x3115c0s33b0n0:2367128:2367128 [0] NCCL INFO NET/Plugin: Failed to find ncclNetPlugin_v8 symbol.
+x3115c0s33b0n0:2367128:2367128 [0] NCCL INFO NET/Plugin: Loaded net plugin AWS Libfabric (v6)
+x3115c0s33b0n0:2367128:2367128 [0] NCCL INFO NET/Plugin: Failed to find ncclCollNetPlugin_v8 symbol.
+x3115c0s33b0n0:2367128:2367128 [0] NCCL INFO NET/Plugin: Failed to find ncclCollNetPlugin symbol (>= v5). ncclCollNetPlugin symbols v4 and lower are not supported.
+x3115c0s33b0n0:2367128:2367128 [0] NCCL INFO Comm config Blocking set to 1
+x3115c0s33b0n0:2367128:2368302 [0] NCCL INFO NET/OFI Using aws-ofi-nccl 1.6.0
+x3115c0s33b0n0:2367128:2368302 [0] NCCL INFO NET/OFI Selected Provider is cxi (found 4 nics)
+x3115c0s33b0n0:2367128:2368302 [0] NCCL INFO Using non-device net plugin version 0
+x3115c0s33b0n0:2367128:2368302 [0] NCCL INFO Using network AWS Libfabric
+x3115c0s33b0n0:2367128:2368302 [0] NCCL INFO ncclCommInitRank comm 0xb1d1400 rank 4 nranks 8 cudaDev 0 nvmlDev 0 busId 4000 commId 0x8656f30c4b9c306d - Init START
+x3115c0s33b0n0:2367128:2368302 [0] NCCL INFO NCCL_NET_GDR_LEVEL set by environment to LOC
+x3115c0s33b0n0:2367128:2368302 [0] NCCL INFO NVLS multicast support is not available on dev 0
+x3115c0s33b0n0:2367128:2368302 [0] NCCL INFO NCCL_CROSS_NIC set by environment to 1.
+x3115c0s33b0n0:2367128:2368302 [0] NCCL INFO comm 0xb1d1400 rank 4 nRanks 8 nNodes 2 localRanks 4 localRank 0 MNNVL 0
+x3115c0s33b0n0:2367128:2368302 [0] NCCL INFO Trees [0] 5/-1/-1->4->0 [1] 5/-1/-1->4->7 [2] 5/0/-1->4->-1 [3] 5/-1/-1->4->7
+x3115c0s33b0n0:2367128:2368302 [0] NCCL INFO P2P Chunksize set to 131072
+x3115c0s33b0n0:2367128:2368302 [0] NCCL INFO Channel 01/0 : 4[0] -> 7[3] via P2P/CUMEM
+x3115c0s33b0n0:2367128:2368302 [0] NCCL INFO Channel 03/0 : 4[0] -> 7[3] via P2P/CUMEM
+x3115c0s33b0n0:2367128:2368302 [0] NCCL INFO Channel 01/0 : 0[0] -> 4[0] [receive] via NET/AWS Libfabric/1
+x3115c0s33b0n0:2367128:2368302 [0] NCCL INFO Channel 03/0 : 0[0] -> 4[0] [receive] via NET/AWS Libfabric/1
+x3115c0s33b0n0:2367128:2368302 [0] NCCL INFO Channel 00/0 : 4[0] -> 0[0] [send] via NET/AWS Libfabric/1
+x3115c0s33b0n0:2367128:2368302 [0] NCCL INFO Channel 02/0 : 4[0] -> 0[0] [send] via NET/AWS Libfabric/1
+x3115c0s33b0n0:2367128:2368302 [0] NCCL INFO Connected all rings
+x3115c0s33b0n0:2367128:2368302 [0] NCCL INFO Channel 00/0 : 4[0] -> 5[1] via P2P/CUMEM
+x3115c0s33b0n0:2367128:2368302 [0] NCCL INFO Channel 01/0 : 4[0] -> 5[1] via P2P/CUMEM
+x3115c0s33b0n0:2367128:2368302 [0] NCCL INFO Channel 02/0 : 4[0] -> 5[1] via P2P/CUMEM
+x3115c0s33b0n0:2367128:2368302 [0] NCCL INFO Channel 03/0 : 4[0] -> 5[1] via P2P/CUMEM
+x3115c0s33b0n0:2367128:2368302 [0] NCCL INFO Channel 00/0 : 0[0] -> 4[0] [receive] via NET/AWS Libfabric/1
+x3115c0s33b0n0:2367128:2368302 [0] NCCL INFO Channel 02/0 : 0[0] -> 4[0] [receive] via NET/AWS Libfabric/1
+x3115c0s33b0n0:2367128:2368302 [0] NCCL INFO Connected all trees
+x3115c0s33b0n0:2367128:2368302 [0] NCCL INFO threadThresholds 8/8/64 | 64/8/64 | 512 | 512
+x3115c0s33b0n0:2367128:2368302 [0] NCCL INFO 4 coll channels, 4 collnet channels, 0 nvls channels, 4 p2p channels, 2 p2p channels per peer
+x3115c0s33b0n0:2367128:2368302 [0] NCCL INFO TUNER/Plugin: Failed to find ncclTunerPlugin_v2, using internal tuner instead.
+x3115c0s33b0n0:2367128:2368302 [0] NCCL INFO ncclCommInitRank comm 0xb1d1400 rank 4 nranks 8 cudaDev 0 nvmlDev 0 busId 4000 commId 0x8656f30c4b9c306d - Init COMPLETE
+x3115c0s33b0n0:2367128:2367128 [0] NCCL INFO comm 0xb1d1400 rank 4 nranks 8 cudaDev 0 busId 4000 - Destroy COMPLETE
+x3115c0s33b0n0:2367131:2367131 [3] NCCL INFO comm 0xaac1330 rank 7 nranks 8 cudaDev 3 busId e4000 - Destroy COMPLETE
+x3115c0s29b0n0:565275:565275 [3] NCCL INFO comm 0xa62f430 rank 3 nranks 8 cudaDev 3 busId e4000 - Destroy COMPLETE
+x3115c0s29b0n0:565273:565273 [1] NCCL INFO comm 0xaaf7340 rank 1 nranks 8 cudaDev 1 busId 64000 - Destroy COMPLETE
+x3115c0s29b0n0:565274:565274 [2] NCCL INFO cudaDriverVersion 12040
+x3115c0s29b0n0:565274:565274 [2] NCCL INFO NCCL_SOCKET_IFNAME set by environment to hsn
+x3115c0s29b0n0:565274:565274 [2] NCCL INFO Bootstrap : Using hsn0:10.150.17.117<0>
+x3115c0s29b0n0:565274:565274 [2] NCCL INFO NET/Plugin: Failed to find ncclNetPlugin_v8 symbol.
+x3115c0s29b0n0:565274:565274 [2] NCCL INFO NET/Plugin: Loaded net plugin AWS Libfabric (v6)
+x3115c0s29b0n0:565274:565274 [2] NCCL INFO NET/Plugin: Failed to find ncclCollNetPlugin_v8 symbol.
+x3115c0s29b0n0:565274:565274 [2] NCCL INFO NET/Plugin: Failed to find ncclCollNetPlugin symbol (>= v5). ncclCollNetPlugin symbols v4 and lower are not supported.
+x3115c0s29b0n0:565274:565274 [2] NCCL INFO Comm config Blocking set to 1
+x3115c0s29b0n0:565274:565457 [2] NCCL INFO NET/OFI Using aws-ofi-nccl 1.6.0
+x3115c0s29b0n0:565274:565457 [2] NCCL INFO NET/OFI Selected Provider is cxi (found 4 nics)
+x3115c0s29b0n0:565274:565457 [2] NCCL INFO Using non-device net plugin version 0
+x3115c0s29b0n0:565274:565457 [2] NCCL INFO Using network AWS Libfabric
+x3115c0s29b0n0:565274:565457 [2] NCCL INFO ncclCommInitRank comm 0xa576270 rank 2 nranks 8 cudaDev 2 nvmlDev 2 busId 84000 commId 0x8656f30c4b9c306d - Init START
+x3115c0s29b0n0:565274:565457 [2] NCCL INFO NCCL_NET_GDR_LEVEL set by environment to LOC
+x3115c0s29b0n0:565274:565457 [2] NCCL INFO NVLS multicast support is not available on dev 2
+x3115c0s29b0n0:565274:565457 [2] NCCL INFO NCCL_CROSS_NIC set by environment to 1.
+x3115c0s29b0n0:565274:565457 [2] NCCL INFO comm 0xa576270 rank 2 nRanks 8 nNodes 2 localRanks 4 localRank 2 MNNVL 0
+x3115c0s29b0n0:565274:565457 [2] NCCL INFO Trees [0] 3/-1/-1->2->1 [1] 3/6/-1->2->-1 [2] 3/-1/-1->2->1 [3] 3/-1/-1->2->6
+x3115c0s29b0n0:565274:565457 [2] NCCL INFO P2P Chunksize set to 131072
+x3115c0s29b0n0:565274:565457 [2] NCCL INFO Channel 01/0 : 6[2] -> 2[2] [receive] via NET/AWS Libfabric/3
+x3115c0s29b0n0:565274:565457 [2] NCCL INFO Channel 03/0 : 6[2] -> 2[2] [receive] via NET/AWS Libfabric/3
+x3115c0s29b0n0:565274:565457 [2] NCCL INFO Channel 00/0 : 2[2] -> 6[2] [send] via NET/AWS Libfabric/3
+x3115c0s29b0n0:565274:565457 [2] NCCL INFO Channel 02/0 : 2[2] -> 6[2] [send] via NET/AWS Libfabric/3
+x3115c0s29b0n0:565274:565457 [2] NCCL INFO Channel 01/0 : 2[2] -> 1[1] via P2P/CUMEM
+x3115c0s29b0n0:565274:565457 [2] NCCL INFO Channel 03/0 : 2[2] -> 1[1] via P2P/CUMEM
+x3115c0s29b0n0:565274:565457 [2] NCCL INFO Connected all rings
+x3115c0s29b0n0:565274:565457 [2] NCCL INFO Channel 00/0 : 2[2] -> 3[3] via P2P/CUMEM
+x3115c0s29b0n0:565274:565457 [2] NCCL INFO Channel 01/0 : 2[2] -> 3[3] via P2P/CUMEM
+x3115c0s29b0n0:565274:565457 [2] NCCL INFO Channel 02/0 : 2[2] -> 3[3] via P2P/CUMEM
+x3115c0s29b0n0:565274:565457 [2] NCCL INFO Channel 03/0 : 2[2] -> 3[3] via P2P/CUMEM
+x3115c0s29b0n0:565274:565457 [2] NCCL INFO Channel 01/0 : 2[2] -> 6[2] [send] via NET/AWS Libfabric/3
+x3115c0s29b0n0:565274:565457 [2] NCCL INFO Channel 03/0 : 2[2] -> 6[2] [send] via NET/AWS Libfabric/3
+x3115c0s29b0n0:565274:565457 [2] NCCL INFO Channel 00/0 : 2[2] -> 1[1] via P2P/CUMEM
+x3115c0s29b0n0:565274:565457 [2] NCCL INFO Channel 02/0 : 2[2] -> 1[1] via P2P/CUMEM
+x3115c0s29b0n0:565274:565457 [2] NCCL INFO Connected all trees
+x3115c0s29b0n0:565274:565457 [2] NCCL INFO threadThresholds 8/8/64 | 64/8/64 | 512 | 512
+x3115c0s29b0n0:565274:565457 [2] NCCL INFO 4 coll channels, 4 collnet channels, 0 nvls channels, 4 p2p channels, 2 p2p channels per peer
+x3115c0s29b0n0:565274:565457 [2] NCCL INFO TUNER/Plugin: Failed to find ncclTunerPlugin_v2, using internal tuner instead.
+x3115c0s29b0n0:565274:565457 [2] NCCL INFO ncclCommInitRank comm 0xa576270 rank 2 nranks 8 cudaDev 2 nvmlDev 2 busId 84000 commId 0x8656f30c4b9c306d - Init COMPLETE
+x3115c0s29b0n0:565274:565274 [2] NCCL INFO comm 0xa576270 rank 2 nranks 8 cudaDev 2 busId 84000 - Destroy COMPLETE
+x3115c0s33b0n0:2367130:2367130 [2] NCCL INFO cudaDriverVersion 12040
+x3115c0s33b0n0:2367130:2367130 [2] NCCL INFO NCCL_SOCKET_IFNAME set by environment to hsn
+x3115c0s33b0n0:2367130:2367130 [2] NCCL INFO Bootstrap : Using hsn0:10.150.17.118<0>
+x3115c0s33b0n0:2367130:2367130 [2] NCCL INFO NET/Plugin: Failed to find ncclNetPlugin_v8 symbol.
+x3115c0s33b0n0:2367130:2367130 [2] NCCL INFO NET/Plugin: Loaded net plugin AWS Libfabric (v6)
+x3115c0s33b0n0:2367130:2367130 [2] NCCL INFO NET/Plugin: Failed to find ncclCollNetPlugin_v8 symbol.
+x3115c0s33b0n0:2367130:2367130 [2] NCCL INFO NET/Plugin: Failed to find ncclCollNetPlugin symbol (>= v5). ncclCollNetPlugin symbols v4 and lower are not supported.
+x3115c0s33b0n0:2367130:2367130 [2] NCCL INFO Comm config Blocking set to 1
+x3115c0s33b0n0:2367130:2368307 [2] NCCL INFO NET/OFI Using aws-ofi-nccl 1.6.0
+x3115c0s33b0n0:2367130:2368307 [2] NCCL INFO NET/OFI Selected Provider is cxi (found 4 nics)
+x3115c0s33b0n0:2367130:2368307 [2] NCCL INFO Using non-device net plugin version 0
+x3115c0s33b0n0:2367130:2368307 [2] NCCL INFO Using network AWS Libfabric
+x3115c0s33b0n0:2367130:2368307 [2] NCCL INFO ncclCommInitRank comm 0xa2983d0 rank 6 nranks 8 cudaDev 2 nvmlDev 2 busId 84000 commId 0x8656f30c4b9c306d - Init START
+x3115c0s33b0n0:2367130:2368307 [2] NCCL INFO NCCL_NET_GDR_LEVEL set by environment to LOC
+x3115c0s33b0n0:2367130:2368307 [2] NCCL INFO NVLS multicast support is not available on dev 2
+x3115c0s33b0n0:2367130:2368307 [2] NCCL INFO NCCL_CROSS_NIC set by environment to 1.
+x3115c0s33b0n0:2367130:2368307 [2] NCCL INFO comm 0xa2983d0 rank 6 nRanks 8 nNodes 2 localRanks 4 localRank 2 MNNVL 0
+x3115c0s33b0n0:2367130:2368307 [2] NCCL INFO Trees [0] 7/-1/-1->6->5 [1] 7/-1/-1->6->2 [2] 7/-1/-1->6->5 [3] 7/2/-1->6->-1
+x3115c0s33b0n0:2367130:2368307 [2] NCCL INFO P2P Chunksize set to 131072
+x3115c0s33b0n0:2367130:2368307 [2] NCCL INFO Channel 00/0 : 2[2] -> 6[2] [receive] via NET/AWS Libfabric/3
+x3115c0s33b0n0:2367130:2368307 [2] NCCL INFO Channel 02/0 : 2[2] -> 6[2] [receive] via NET/AWS Libfabric/3
+x3115c0s33b0n0:2367130:2368307 [2] NCCL INFO Channel 01/0 : 6[2] -> 2[2] [send] via NET/AWS Libfabric/3
+x3115c0s33b0n0:2367130:2368307 [2] NCCL INFO Channel 03/0 : 6[2] -> 2[2] [send] via NET/AWS Libfabric/3
+x3115c0s33b0n0:2367130:2368307 [2] NCCL INFO Channel 00/0 : 6[2] -> 5[1] via P2P/CUMEM
+x3115c0s33b0n0:2367130:2368307 [2] NCCL INFO Channel 02/0 : 6[2] -> 5[1] via P2P/CUMEM
+x3115c0s33b0n0:2367130:2368307 [2] NCCL INFO Connected all rings
+x3115c0s33b0n0:2367130:2368307 [2] NCCL INFO Channel 00/0 : 6[2] -> 7[3] via P2P/CUMEM
+x3115c0s33b0n0:2367130:2368307 [2] NCCL INFO Channel 01/0 : 6[2] -> 7[3] via P2P/CUMEM
+x3115c0s33b0n0:2367130:2368307 [2] NCCL INFO Channel 02/0 : 6[2] -> 7[3] via P2P/CUMEM
+x3115c0s33b0n0:2367130:2368307 [2] NCCL INFO Channel 03/0 : 6[2] -> 7[3] via P2P/CUMEM
+x3115c0s33b0n0:2367130:2368307 [2] NCCL INFO Channel 01/0 : 2[2] -> 6[2] [receive] via NET/AWS Libfabric/3
+x3115c0s33b0n0:2367130:2368307 [2] NCCL INFO Channel 03/0 : 2[2] -> 6[2] [receive] via NET/AWS Libfabric/3
+x3115c0s33b0n0:2367130:2368307 [2] NCCL INFO Connected all trees
+x3115c0s33b0n0:2367130:2368307 [2] NCCL INFO threadThresholds 8/8/64 | 64/8/64 | 512 | 512
+x3115c0s33b0n0:2367130:2368307 [2] NCCL INFO 4 coll channels, 4 collnet channels, 0 nvls channels, 4 p2p channels, 2 p2p channels per peer
+x3115c0s33b0n0:2367130:2368307 [2] NCCL INFO TUNER/Plugin: Failed to find ncclTunerPlugin_v2, using internal tuner instead.
+x3115c0s33b0n0:2367130:2368307 [2] NCCL INFO ncclCommInitRank comm 0xa2983d0 rank 6 nranks 8 cudaDev 2 nvmlDev 2 busId 84000 commId 0x8656f30c4b9c306d - Init COMPLETE
+x3115c0s33b0n0:2367130:2367130 [2] NCCL INFO comm 0xa2983d0 rank 6 nranks 8 cudaDev 2 busId 84000 - Destroy COMPLETE
+x3115c0s33b0n0:2367129:2367129 [1] NCCL INFO cudaDriverVersion 12040
+x3115c0s33b0n0:2367129:2367129 [1] NCCL INFO NCCL_SOCKET_IFNAME set by environment to hsn
+x3115c0s33b0n0:2367129:2367129 [1] NCCL INFO Bootstrap : Using hsn0:10.150.17.118<0>
+x3115c0s33b0n0:2367129:2367129 [1] NCCL INFO NET/Plugin: Failed to find ncclNetPlugin_v8 symbol.
+x3115c0s33b0n0:2367129:2367129 [1] NCCL INFO NET/Plugin: Loaded net plugin AWS Libfabric (v6)
+x3115c0s33b0n0:2367129:2367129 [1] NCCL INFO NET/Plugin: Failed to find ncclCollNetPlugin_v8 symbol.
+x3115c0s33b0n0:2367129:2367129 [1] NCCL INFO NET/Plugin: Failed to find ncclCollNetPlugin symbol (>= v5). ncclCollNetPlugin symbols v4 and lower are not supported.
+x3115c0s33b0n0:2367129:2367129 [1] NCCL INFO Comm config Blocking set to 1
+x3115c0s33b0n0:2367129:2368303 [1] NCCL INFO NET/OFI Using aws-ofi-nccl 1.6.0
+x3115c0s33b0n0:2367129:2368303 [1] NCCL INFO NET/OFI Selected Provider is cxi (found 4 nics)
+x3115c0s33b0n0:2367129:2368303 [1] NCCL INFO Using non-device net plugin version 0
+x3115c0s33b0n0:2367129:2368303 [1] NCCL INFO Using network AWS Libfabric
+x3115c0s33b0n0:2367129:2368303 [1] NCCL INFO ncclCommInitRank comm 0x9a1b510 rank 5 nranks 8 cudaDev 1 nvmlDev 1 busId 64000 commId 0x8656f30c4b9c306d - Init START
+x3115c0s33b0n0:2367129:2368303 [1] NCCL INFO NCCL_NET_GDR_LEVEL set by environment to LOC
+x3115c0s33b0n0:2367129:2368303 [1] NCCL INFO NVLS multicast support is not available on dev 1
+x3115c0s33b0n0:2367129:2368303 [1] NCCL INFO NCCL_CROSS_NIC set by environment to 1.
+x3115c0s33b0n0:2367129:2368303 [1] NCCL INFO comm 0x9a1b510 rank 5 nRanks 8 nNodes 2 localRanks 4 localRank 1 MNNVL 0
+x3115c0s33b0n0:2367129:2368303 [1] NCCL INFO Trees [0] 6/-1/-1->5->4 [1] -1/-1/-1->5->4 [2] 6/-1/-1->5->4 [3] -1/-1/-1->5->4
+x3115c0s33b0n0:2367129:2368303 [1] NCCL INFO P2P Chunksize set to 131072
+x3115c0s33b0n0:2367129:2368303 [1] NCCL INFO Channel 01/0 : 5[1] -> 6[2] via P2P/CUMEM
+x3115c0s33b0n0:2367129:2368303 [1] NCCL INFO Channel 03/0 : 5[1] -> 6[2] via P2P/CUMEM
+x3115c0s33b0n0:2367129:2368303 [1] NCCL INFO Channel 00/0 : 5[1] -> 7[3] via P2P/CUMEM
+x3115c0s33b0n0:2367129:2368303 [1] NCCL INFO Channel 02/0 : 5[1] -> 7[3] via P2P/CUMEM
+x3115c0s33b0n0:2367129:2368303 [1] NCCL INFO Connected all rings
+x3115c0s33b0n0:2367129:2368303 [1] NCCL INFO Channel 00/0 : 5[1] -> 6[2] via P2P/CUMEM
+x3115c0s33b0n0:2367129:2368303 [1] NCCL INFO Channel 02/0 : 5[1] -> 6[2] via P2P/CUMEM
+x3115c0s33b0n0:2367129:2368303 [1] NCCL INFO Channel 00/0 : 5[1] -> 4[0] via P2P/CUMEM
+x3115c0s33b0n0:2367129:2368303 [1] NCCL INFO Channel 01/0 : 5[1] -> 4[0] via P2P/CUMEM
+x3115c0s33b0n0:2367129:2368303 [1] NCCL INFO Channel 02/0 : 5[1] -> 4[0] via P2P/CUMEM
+x3115c0s33b0n0:2367129:2368303 [1] NCCL INFO Channel 03/0 : 5[1] -> 4[0] via P2P/CUMEM
+x3115c0s33b0n0:2367129:2368303 [1] NCCL INFO Connected all trees
+x3115c0s33b0n0:2367129:2368303 [1] NCCL INFO threadThresholds 8/8/64 | 64/8/64 | 512 | 512
+x3115c0s33b0n0:2367129:2368303 [1] NCCL INFO 4 coll channels, 4 collnet channels, 0 nvls channels, 4 p2p channels, 2 p2p channels per peer
+x3115c0s33b0n0:2367129:2368303 [1] NCCL INFO TUNER/Plugin: Failed to find ncclTunerPlugin_v2, using internal tuner instead.
+x3115c0s33b0n0:2367129:2368303 [1] NCCL INFO ncclCommInitRank comm 0x9a1b510 rank 5 nranks 8 cudaDev 1 nvmlDev 1 busId 64000 commId 0x8656f30c4b9c306d - Init COMPLETE
+x3115c0s33b0n0:2367129:2367129 [1] NCCL INFO comm 0x9a1b510 rank 5 nranks 8 cudaDev 1 busId 64000 - Destroy COMPLETE
