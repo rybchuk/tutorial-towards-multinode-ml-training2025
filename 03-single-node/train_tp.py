@@ -7,26 +7,84 @@ import torch
 from torch.profiler import record_function
 from torch.utils.data import DataLoader
 
-from torch.distributed import init_process_group, destroy_process_group
+from torch.distributed import init_process_group, destroy_process_group, get_rank, get_world_size
 from torch.distributed.device_mesh import init_device_mesh
-from torch.distributed.fsdp import fully_shard, MixedPrecisionPolicy
-from torch.utils.data.distributed import DistributedSampler
-
+import torch.multiprocessing as mp
+from torch.distributed.tensor.parallel import (
+    parallelize_module,
+    ColwiseParallel,
+    RowwiseParallel
+)
 from era5_dataset import GetClimateDataset
 from profiling_support import maybe_enable_profiling, maybe_enable_memory_snapshot
-from SwinIR import SwinIR
+from SwinIR_profiling_by_layer import SwinIR
+
+def check_tp_shapes(model):
+    """Simple check to see if TP changed the MLP and attention shapes as expected"""
+    
+    rank = get_rank()
+    world_size = get_world_size()
+    
+    print(f"\n=== TP Shape Check - Rank {rank} ===")
+    
+    # Check first few blocks
+    for layer_id, rstb_layer in enumerate(model.layers[:2]):  # Just first 2 layers
+        for block_id, transformer_block in enumerate(rstb_layer.residual_group.blocks[:2]):  # Just first 2 blocks
+            
+            print(f"Layer {layer_id}, Block {block_id}:")
+            
+            # Check MLP layers
+            if hasattr(transformer_block, 'mlp'):
+                mlp = transformer_block.mlp
+                
+                print(f"  MLP:")
+                
+                # Check fc1
+                fc1_weight = mlp.fc1.weight
+                if hasattr(fc1_weight, '_local_tensor'):
+                    print(f"    fc1 - Global: {fc1_weight.shape}, Local: {fc1_weight._local_tensor.shape}")
+                else:
+                    print(f"    fc1 - Shape: {fc1_weight.shape} (not DTensor)")
+                
+                # Check fc2  
+                fc2_weight = mlp.fc2.weight
+                if hasattr(fc2_weight, '_local_tensor'):
+                    print(f"    fc2 - Global: {fc2_weight.shape}, Local: {fc2_weight._local_tensor.shape}")
+                else:
+                    print(f"    fc2 - Shape: {fc2_weight.shape} (not DTensor)")
+            
+            # Check Attention layers
+            if hasattr(transformer_block, 'attn'):
+                attn = transformer_block.attn
+                
+                print(f"  Attention:")
+                
+                # Check qkv
+                if hasattr(attn, 'qkv'):
+                    qkv_weight = attn.qkv.weight
+                    if hasattr(qkv_weight, '_local_tensor'):
+                        print(f"    qkv - Global: {qkv_weight.shape}, Local: {qkv_weight._local_tensor.shape}")
+                    else:
+                        print(f"    qkv - Shape: {qkv_weight.shape} (not DTensor)")
+                
+                # Check proj
+                if hasattr(attn, 'proj'):
+                    proj_weight = attn.proj.weight
+                    if hasattr(proj_weight, '_local_tensor'):
+                        print(f"    proj - Global: {proj_weight.shape}, Local: {proj_weight._local_tensor.shape}")
+                    else:
+                        print(f"    proj - Shape: {proj_weight.shape} (not DTensor)")
 
 def main():
     ### ~~~~~ Set up the multiple GPUs ~~~~~
     init_process_group(backend="nccl")
-    world_size = int(os.environ["WORLD_SIZE"])
-    fsdp_mesh = init_device_mesh("cuda", mesh_shape=(world_size,), mesh_dim_names=("fsdp",))
+    tp_mesh = init_device_mesh("cuda", mesh_shape=(world_size,), mesh_dim_names=("tp",))
 
     device_type = 'cuda'
-    local_rank = int(os.environ['LOCAL_RANK'])
-    device = torch.device(f"{device_type}:{local_rank}")
-    is_device0 = (local_rank==0)
-    if is_device0: print(f'Using {fsdp_mesh["fsdp"]} GPUs for Pipeline Parallel')
+    rank = tp_mesh.get_rank()
+    device = torch.device(f"{device_type}:{rank}")
+    print(f"Running on rank {rank}!")
+    is_rank0 = (rank==0)
 
     ### ~~~~~ Parameters (hardcoded for now) ~~~~~
     ## Args for Dataset
@@ -48,7 +106,7 @@ def main():
     img_width = (1440 // upscale_factor // window_size + 1) * window_size
 
     ## Args for training
-    total_epochs = 5
+    total_epochs = 2
     base_lr = 8e-4
     weight_decay = 1e-6
     gamma_sched = 0.97
@@ -57,7 +115,7 @@ def main():
     enable_profiling = True
     enable_profiling_with_memory = True
     enable_snapshot = False
-    logdir = Path('fsdp')
+    logdir = Path('tp')
     logdir.mkdir(exist_ok=True)
     break_batch_idx = 9  # WAIT + WARMUP + ACTIVE
 
@@ -71,17 +129,15 @@ def main():
                                       noise_ratio=noise,
                                       std=dataset_std,
                                       method=downsampling_method)
-    sampler_train = DistributedSampler(dataset_train, 
-                                       num_replicas=world_size, 
-                                       rank=local_rank, 
-                                       shuffle=True)
+
     dl_train = DataLoader(dataset_train,
                             batch_size = batch_size,
                             num_workers = num_dl_workers,
-                            sampler = sampler_train,
+                            shuffle = True,
+                            sampler = None,
                             drop_last = True,
                             pin_memory = True)
-    if is_device0: print(f"Training dataset has {len(dataset_train)} samples, and there are {len(dl_train)} batches")
+    if is_rank0: print(f"Training dataset has {len(dataset_train)} samples, and there are {len(dl_train)} batches")
 
     ### ~~~~~~~~~~ Initialize model ~~~~~~~~~~
     model = SwinIR(upscale=upscale_factor, 
@@ -97,20 +153,29 @@ def main():
                    resi_connection='1conv',
                    mean=dataset_mean,
                    std=dataset_std,
-                   use_checkpoint=True)
-    fsdp_kwargs = {                         # Replace AMP with FSDP2-specific mixed precision
-        # "mp_policy": MixedPrecisionPolicy(
-        #     param_dtype=torch.bfloat16,
-        #     reduce_dtype=torch.float32
-        # ),  # TODO: Resolve dtype bug
-        "mesh": fsdp_mesh
-    }
-    for layer in model.layers:
-        fully_shard(layer, **fsdp_kwargs)
-    fully_shard(model, **fsdp_kwargs)
+                   use_checkpoint=False)
+    model = model.to(device)
+
+    # Apply TP
+    for layer_id, rstb_layer in enumerate(model.layers):  # Iterate over RSTBs
+        for block_id, transformer_block in enumerate(rstb_layer.residual_group.blocks):  # Iterate over SwinTransformerBlocks
+            # Only apply TP
+            layer_tp_plan = {
+                "mlp.fc1": ColwiseParallel(),
+                "mlp.fc2": RowwiseParallel(),
+            } 
+
+            parallelize_module(
+                module=transformer_block,
+                device_mesh=tp_mesh,
+                parallelize_plan=layer_tp_plan
+            )
+
+            print(f"Applied TP to layer {layer_id}, block {block_id}")
+    check_tp_shapes(model)
 
     # Model summary
-    if is_device0:
+    if is_rank0:
         # print(model)
         print('**** Model setup complete ****')
 
@@ -120,7 +185,7 @@ def main():
     loss_fcn = torch.nn.L1Loss().to(device)
 
     ### ~~~~~ Train! ~~~~~
-    print(f"[{device}]: Kicking off training!")
+    print(f"[Rank {rank}]: Kicking off training!")
     start_epoch = 0
 
     with maybe_enable_profiling(
@@ -130,7 +195,6 @@ def main():
     ) as memory_profiler:
         for epoch in range(start_epoch,total_epochs):
             model.train()
-            sampler_train.set_epoch(epoch)
 
             epoch_train_loss = 0
             for batch_idx, (model_input, target) in enumerate(dl_train): # data shape: [b,c,h,w]
@@ -163,10 +227,13 @@ def main():
                 if batch_idx == break_batch_idx:
                     break
                 else:
-                    if is_device0: print(f"Batch index: {batch_idx}...")
+                    if is_rank0: print(f"Batch index: {batch_idx}...")
             scheduler.step()
             break
     destroy_process_group()
 
 if __name__ == "__main__":
+    world_size = int(os.environ["WORLD_SIZE"])
+    print(f"{world_size} GPU devices visible")
+    
     main()
