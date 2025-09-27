@@ -2,7 +2,7 @@
 Before we scale up our algorithm, we need to get the training code working for a baseline case.
 
 ### Install the necessary Python libraries
-I recommend using [conda](https://nrel.github.io/HPC/Documentation/Environment/Customization/conda/) to create an environment for this tutorial. In additional to the usual PyTorch libraries (`torch`, `torchvision`), you will also need less common libraries (e.g., `timm`, `h5py`). You can see my exact conda environment in `conda-env.yml`. I'll note that I will be using PyTorch 2.7.1 unless explicitly stated.
+I recommend using [conda](https://nrel.github.io/HPC/Documentation/Environment/Customization/conda/) to create an environment for this tutorial. In addition to the usual PyTorch libraries (`torch`, `torchvision`), you will also need less common libraries (e.g., `timm`, `h5py`). You can see my exact conda environment in `conda-env.yml`. I'll note that I will be using PyTorch 2.8.0 unless explicitly stated.
 
 ### `train.py`
 [Download the curated ERA5 dataset](https://github.com/erichson/SuperBench?tab=readme-ov-file#usage) and untar it. Move the `train/` folder so your directory has this structure: `tutorial-towards-multinode-ml-training2025/datasets/era5/train`.
@@ -14,7 +14,7 @@ First, we will run `train.py`. This script leverages code from the SuperBench re
 * Kick off the training loop
     * To keep us focused on the problem of scaling to large samples, I keep the number of training epochs small, omit model verification code, and omit wandb/Tensorboard logging
 
-To run this script, launch a SLURM batch job that looks like:
+To run this script, launch an interactive SLURM job, or a SLURM batch job that looks like:
 ```
 # ...
 # <SLURM ARGUMENTS>
@@ -44,7 +44,7 @@ Epoch : 1 - datetime 2025-07-07 16:11:38.789383 - training loss : 1.2190 - curre
 Epoch : 2 - datetime 2025-07-07 16:15:56.399834 - training loss : 0.4999 - current_lr: 0.000776
 ```
 
-Side note: If I happen to be at my computer when the SLURM job starts, I like to monitor the state of the GPU at a coarse level. To do this, I (1) identify the name of the GPU node that my job is running on, (2) SSH into it in a new terminal session, e.g., `ssh x3112c0s41b0n0`, and then (3) run `nvtop`. In the below image, you can see that we're only running on GPU0, which is our intended behavior at the moment.
+At the start of a training run, I like to monitor the state of the GPU at a coarse level. To do this, I (1) identify the name of the GPU node that my job is running on, (2) SSH into it in a new terminal session, e.g., `ssh x3112c0s41b0n0`, and then (3) run `nvtop`. In the below image, you can see that we're only running on GPU0, which is our intended behavior at the moment.
 
 ![nvtop](../figs/00_nvtop.png?raw=true "nvtop")
 
@@ -68,16 +68,16 @@ Run `train_with_profiling.py` on a GPU node. This script will generate a few fil
 
 ![Performance trace](../figs/00_perfetto_zoomed_out.png?raw=true "Performance trace")
 
-There's a ton of information in this trace and it can be overwhelming. Our goal with this performance trace is to see how long different sections of the code run for, so that way we better understand how to speed up our script. Like I mentioned earlier, I am moreso focused on memory optimization than speed optimization in this tutorial, so I will discuss performances trace very briefly. I haven't found any simple and comprehensive guides on how to parse these traces, but I have found it helpful to paste screenshots of these traces into an LLM and to talk to it about the trace. The GPU Mode YouTube channel also has some in depth videos on performance traces. 
+There's a ton of information in this trace and it can be overwhelming. Our goal with this performance trace is to see how long different sections of the code run for, so that way we better understand how to speed up our script. Like I mentioned earlier, I am moreso focused on memory optimization than speed optimization in this tutorial, so I will discuss performances traces very briefly. I haven't found any simple and comprehensive guides on how to parse these traces, but I have found it helpful to paste screenshots of these traces into an LLM and to talk to it about the trace. The GPU Mode YouTube channel also has some in depth videos on performance traces. 
 
- In the above image, the `3606751` row shows the code processing 5 batches of data, each corresponding to a downward spike. Zoom into one of these batches (Ctrl + scroll on a Mac).
+In the above image, the `3606751` row shows the code processing 5 batches of data, each corresponding to a downward spike. Zoom into one of these batches (Ctrl + scroll on a Mac).
 
  ![Performance trace, zoomed in](../figs/00_perfetto_zoomed_in.png?raw=true "Performance trace, zoomed in")
 
 You can see the forward pass section (cyan) and the backward pass section (blue). After the backward section, you can see a very short optimization section. You can zoom in further to see even more granular detail. You can further dig through the performance trace file to understand the timing of data loading. The data loader is often a bottleneck, leading to projects like [NVIDIA DALI](https://developer.nvidia.com/dali).
 
 ##### Memory profiling
-Drag `logs/rank_memoty0.html` into your web browser. You will see a chart of memory usage over time. Again, you see the profiler process 5 batches of data, with maximum memory allocation occupying around 24 GB of VRAM.
+Drag `logs/rank_memory0.html` into your web browser. You will see a chart of memory usage over time. Again, you see the profiler process 5 batches of data, with maximum memory allocation occupying around 24 GB of VRAM.
 
 ![Memory trace](../figs/00_memory_trace.png?raw=true "Memory trace")
 
@@ -86,8 +86,33 @@ The memory usage is helpfully binned into different categories. You can see that
 ##### Memory Snapshot
 Grab `logs/iteration_5/rank0_memory_snapshot.pickle` and upload it to https://docs.pytorch.org/memory_viz. 
 
-![Memory snapsho](../figs/00_memory_snapshot.png?raw=true "Memory snapshot")
+![Memory snapshot](../figs/00_memory_snapshot.png?raw=true "Memory snapshot")
 
-Here, you also get a plot of memory usage versus time, as well as a few other tabs with very detailed information about the memory state. My impression is that this tool is moreso targeted at programmers doing low-level optimizations, which I don't have experience with. 
+Here, you also get a plot of memory usage versus time, as well as a few other tabs with very detailed information about the memory state. My impression is that this tool is more targeted at programmers doing low-level optimizations, which I don't have experience with. 
+
+### `train_with_profiling_by_layer.py`: fine-grained memory usage with `print` statements
+Which parts of our SwinIR model are using the most memory? The above profiling tools don't give us a clear answer. If we did know which parts were the most expensive, we could targets our optimization efforts more directly. One simple way to solve this problem is by printing out the total amount of presently allocated memory `torch.cuda.memory.memory_allocated` throughout our SwinIR code `SwinIR_profiling_by_layer.py`. I saved out an example of this in `train_with_profiling_by_layer.log`.
+
+By printing out these values, we see that the six Residual Swin Transformer Blocks (RSTBs) inside of `SwinIR` eat up most of our memory. Each block requires about 4 GB of VRAM.
+```
+[RSTB 0] Memory allocated: 0.174
+[RSTB 1] Memory allocated: 4.303
+...
+[RSTB 5] Memory allocated: 20.677
+```
+
+Within each block, there is a component called `BasicLayer` which holds Swin Transformer Blocks. Within `SwinTransformerBlock`, most of the memory is used by the Swin attention mechanism, and a substantial amount is used by the MLP.
+```
+SwinBlock Start - Memory: 0.174
+After norm1 - Memory: 0.223 (+0.049)
+After view reshape - Memory: 0.223 (+0.000)
+After cyclic shift - Memory: 0.223 (+0.000)
+After window partition - Memory: 0.271 (+0.048)
+After attention - Memory: 0.644 (+0.373)
+After window merge - Memory: 0.693 (+0.048)
+After reverse shift & view - Memory: 0.645 (+-0.048)
+After first residual - Memory: 0.693 (+0.048)
+After MLP + residual - Memory: 0.979 (+0.286)
+```
 
 We have now demonstrated that we can train a baseline network, and we have explored some profiling tools. Next, let's try to train on larger input samples.
